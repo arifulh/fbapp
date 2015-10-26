@@ -1,26 +1,4 @@
 (function() { 
-    
-    // (function(window){ 
-
-    //     youtubejs.loadScript = function () {
-    //       if (window.YT) return; 
-    //       var s = document.createElement('script');
-    //       s.src = 'https://www.youtube.com/iframe_api';
-    //       document.body.appendChild(s);
-
-    //       window.onYouTubeIframeAPIReady = function() {
-    //           plaherr = new YT.Player('player', {
-    //           height: '390',
-    //           width: '640',
-    //           videoId: 'M7lc1UVf-VE',
-    //           events: {
-    //             'onReady': onPlayerReady,
-    //             'onStateCChange': onPlayerStateChange
-    //           }
-    //         })
-
-    //      return youtubejs;
-    //    }
 
   var templates = {
     apiCommentsUrl: _.template('http://gdata.youtube.com/feeds/api/videos/<%= v %>/comments?alt=json-in-script&v=2&max-results=50&callback=comments&fields=entry(content)&callback=comments'),
