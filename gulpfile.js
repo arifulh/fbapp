@@ -57,7 +57,12 @@ gulp.task('build-js', ['build-js-lib'], function() {
 
 gulp.task('build-js-lib', function() {
   return gulp.src('src/js/lib/**/*.js')
-    .pipe(copy('public/js/lib',{ prefix: 3 }))
+      .pipe(sourcemaps.init())
+      .pipe(concat('lib.js'))
+      .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop()) 
+      .pipe(sourcemaps.write())
+    .pipe(gulp.dest(output.js));
+
 });
 
 gulp.task('build-css-lib', function() {
@@ -84,7 +89,7 @@ gulp.task('bower-css', function () {
 gulp.task('bower-js', function () {
   return gulp.src('bower_components/**/*min.js')
     .pipe(flatten())
-    .pipe(gulp.dest('public/js/lib')) 
+    .pipe(gulp.dest('src/js/lib')) 
 })
 
 gulp.task('inject', function(cb) {
