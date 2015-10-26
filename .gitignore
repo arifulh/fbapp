@@ -10,3 +10,4 @@ coverage
 npm-debug.log
 .vagrant/
 node_modules
+bower_components

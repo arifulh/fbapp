@@ -8,6 +8,7 @@ var gulp  = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     del        = require('del');
     clean      = require('gulp-clean'),
+    replace      = require('gulp-replace'),
     inject      = require('gulp-inject'),
     input  = {
       'css': 'src/css/**/*.css',
@@ -49,8 +50,8 @@ gulp.task('build-js', ['build-js-lib'], function() {
     .pipe(sourcemaps.init())
       .pipe(concat('bundle.js'))
       // only uglify if gulp is ran with '--type production'
-      .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop()) 
-    .pipe(sourcemaps.write())
+        .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop()) 
+      .pipe(sourcemaps.write())
     .pipe(gulp.dest(output.js));
 });
 
@@ -88,13 +89,15 @@ gulp.task('bower-js', function () {
 
 gulp.task('inject', function(cb) {
   var target = gulp.src('public/index.html');
-  var sources = gulp.src(['public/js/lib/*.js', 'public/js/*.js', 'public/css/lib/*.css'], {read: false});
-  return target.pipe(inject(sources)).pipe(gulp.dest('./src'));
+  var sources = gulp.src(['public/js/lib/*.js', 'public/js/*.js', 'public/css/lib/*.css'], { prefix: 1, read: false});
+  return target.pipe(inject(sources))
+        .pipe(replace('/public/', ''))
+        .pipe(gulp.dest('./public'));
 });
 
-gulp.task('bower', ['clean', 'bower-js', 'bower-css']);
 gulp.task('clean', ['clean-js', 'clean-css']);
-gulp.task('build', ['clean', 'bower', 'build-js', 'build-css']);
+gulp.task('bower', ['bower-js', 'bower-css']);
+gulp.task('build', ['build-js', 'build-css']);
 
 gulp.task('watch', function() {
   gulp.watch(input.js, ['build-js']);
