@@ -1,0 +1,17 @@
+body {
+  padding: 0; margin: 0 0 ;
+}
+
+
+#messages {
+  width: 5%;
+  float: left;
+  text-align: left;
+}
+
+#ytvideo {
+  width: 50%;
+  float: right;
+  text-align: right;
+}
+
