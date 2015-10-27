@@ -1,35 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <meta name="description" content="">
   <meta name="author" content="">
 
   <title>Sticky Footer Template for Bootstrap</title>
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/lib/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/lib/bootstrap.min.css">
-  <!-- endinject -->
   <link rel="stylesheet" href="css/styles.css">
+  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="js/lib.js"></script>
 </head>
 
+<div class="container">
+<form>
 
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span2">
-      <!--Sidebar content-->
-    </div>
-    <div class="span10">
+</form>
+<div class="row">
 
+  <div class="affix" style="width: 520px; position: fixed; left: 15px; top: 20px">
+    <div id="player1"></div>
+    <div class="progress">
+      <div id="progress" class="progress-bar progress-bar-danger" style=" width: 0%;"></div>
     </div>
-  </div>
+              <div class="col-md-5" style="background:#ccc; position: absolute;  right: 0">
+                      <input style="color: #000;border: solid 1px #ccc; background:#ccc"type="text" class="form-control" id="" placeholder="  ">
+                    </div>
+    </div>
+ 
+<div id="transcript" style=" left: 520px; top: 10px" class="col-md-5">
+
+
+ 
 </div>
+                
+</div>
+
   <script src="js/bundle.js"></script>
 </body>
 </html>

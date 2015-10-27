@@ -1,7 +1,7 @@
 body {
-  padding: 0; margin: 0 0 ;
+  padding: 0; margin: 0 ;
+  background-color: #fff;
 }
-
 
 #messages {
   width: 5%;
@@ -15,3 +15,6 @@ body {
   text-align: right;
 }
 
+
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3R5bGVzLmNzcyIsIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VzIjpbInN0eWxlcy5jc3MiXSwic291cmNlc0NvbnRlbnQiOlsiYm9keSB7XG4gIHBhZGRpbmc6IDA7IG1hcmdpbjogMCA7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XG59XG5cbiNtZXNzYWdlcyB7XG4gIHdpZHRoOiA1JTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG5cbiN5dHZpZGVvIHtcbiAgd2lkdGg6IDUwJTtcbiAgZmxvYXQ6IHJpZ2h0O1xuICB0ZXh0LWFsaWduOiByaWdodDtcbn1cblxuXG4iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */

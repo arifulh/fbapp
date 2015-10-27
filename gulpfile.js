@@ -40,13 +40,14 @@ gulp.task('jshint', function() {
 /* compile scss files */
 gulp.task('build-css', function() {
   return gulp.src(input.css)
+    .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(output.css));
 });
 
 /* concat javascript files, minify if --type production */
 gulp.task('build-js', ['build-js-lib'], function() {
-  return gulp.src(input.js)
+  return gulp.src('src/js/*.js')
     .pipe(sourcemaps.init())
       .pipe(concat('bundle.js'))
       // only uglify if gulp is ran with '--type production'
@@ -81,7 +82,7 @@ gulp.task('clean-css', function () {
 });
 
 gulp.task('bower-css', function () {
-  return gulp.src('bower_components/**/*min.css')
+  return gulp.src('bower_components/**/*.css')
     .pipe(flatten())
     .pipe(gulp.dest('public/css/lib')) 
 })  

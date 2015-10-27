@@ -1,7 +1,7 @@
 body {
-  padding: 0; margin: 0 0 ;
+  padding: 0; margin: 0 ;
+  background-color: #fff;
 }
-
 
 #messages {
   width: 5%;
@@ -14,4 +14,5 @@ body {
   float: right;
   text-align: right;
 }
+
 
