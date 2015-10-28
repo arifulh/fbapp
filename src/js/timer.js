@@ -1,6 +1,7 @@
 (function () {
 
   function Timer() {
+
     var time = +new Date() / 1000,
       elapsed = 0,
       from = 0,
@@ -30,6 +31,7 @@
     }
 
     return {
+
       start: function (from, end, loop) {
         if (from) elapsed = from;
         if (end) to = end;
@@ -38,18 +40,21 @@
         time = +new Date();
         window.requestAnimationFrame(tick);
       },
+
       pause: function () {
         stop = true;
       },
+
       restart: function (from, end, repeat) {
         elapsed = 0;
-        this.start(from, end, repeat)
+        this.start(from, end, repeat);
       },
+
       on: function (name, cb) {
         callbacks[name] = cb;
       }
-    }
-  };
+    };
+  }
 
   window.Timer = Timer;
 

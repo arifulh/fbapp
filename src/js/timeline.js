@@ -11,26 +11,34 @@
   }
 
   Timeline.prototype = {
+
+    /**
+     * Initialize the timeline list with a null
+     * node, this helps sort simply for now.
+     *
+     */
     init: function () {
       this.insert({
         t: null,
         nullNode: true
-      })
+      });
       return this;
     },
+
     insert: function (data) {
       var node = this.createNode(data),
-        after;
-      var ptr = this.head,
-        nn = this.head;
+        after, nn = this.head,
+        ptr = this.head;
 
+      this.length++;
+      // if timeline is empty
       if (!this.length) {
         this.head = node;
         this.tail = this.head;
-        this.length++;
         return;
       }
 
+      // otherwise append after biggest node
       while (nn) {
         if (node.data.t > nn.data.t) ptr = nn;
         if (nn) nn = nn.next;
@@ -42,17 +50,20 @@
     append: function (node, after) {
       var appendAfter = this.tail;
       if (after) appendAfter = after;
+
+      // set new after node
       node.prev = appendAfter.prev;
       node.next = appendAfter.next;
       appendAfter.next = node;
       apendAfter = node;
       if (!node.next) this.tail = node;
-      if (!node.data.nullNode) this.length++;
     },
 
     prepend: function (node, before) {
       var prependBefore = this.head;
       if (before) prependBefore = before;
+
+      // set new before
       node.next = prependBefore.next;
       node.prev = prependBefore.prev;
       prependBefore.prev = node;
@@ -90,6 +101,7 @@
         }
         node = node.next;
       }
+
       return arr;
     }
   };
