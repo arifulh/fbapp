@@ -35,6 +35,8 @@
   };
 
   var app = {
+    __init: false,
+
     config: {
       pid: 'player1',
       width: 520,
@@ -61,38 +63,12 @@
       var timeline = this.timeline = new Timeline();
       this.timer = new Timer();
       this.timer.on('update', this.onTimerUpdate.bind(this));
-      timeline.insert({
-        t: 2,
-        l: "Bush: Sir, I will now inject him with deadly poison"
-      });
-      timeline.insert({
-        t: 15,
-        l: "Bush: This man here is my best friend"
-      });
-      timeline.insert({
-        t: 4,
-        l: "Bush: Sir, they should really drag us into the street and shoot us."
-      });
-      timeline.insert({
-        t: 6,
-        l: "Ashcroft: Why don't you do something else with your life."
-      });
-      timeline.insert({
-        t: 1,
-        l: "Bush: Sir, I can only drink Karachi milkshakes."
-      });
-      timeline.insert({
-        t: 8,
-        l: "Bush: I have one friend, he hates me"
-      });
-      timeline.insert({
-        t: 11,
-        l: "2Bush: My friend enjoys magicians"
-      });
-      timeline.insert({
-        t: 36,
-        l: "Bush: We massage eachothers arms."
-      });
+      this.__init = true;
+    },
+
+    insert: function (data) {
+      if (!data) return;
+      this.timeline.insert(data);
     },
 
     setPlayer: function (player) {
@@ -110,8 +86,9 @@
 
       if (node) {
         a.html(node.data.l);
+        console.log(node.data.l);
       }
-
+      console.log(node);
 
     },
 
@@ -126,6 +103,7 @@
     },
 
     start: function () {
+      if (!app.__init) return;
       var start = Math.floor(this.player.getCurrentTime() || 0),
         end = Math.floor(this.player.getDuration());
       this.player.seekTo(start);
@@ -135,7 +113,10 @@
 
   // init
   $(function () {
+    var data = transcriptTestCallback();
     app.init();
+    app.insert(data)
+    window.app = app;
   });
 
 
