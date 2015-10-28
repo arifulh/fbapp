@@ -5,18 +5,8 @@
     apiQueryUrl:  _.template('https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true<%= pageToken %>&alt=json&order=viewCount&part=snippet&type=video&maxResults=50&key=AIzaSyDPZAqiz9bNw6v3oJBPi_ECREDOtwWXGNo&q=<%= query %>&callback=test'),
     searchResult: _.template('<% _.forEach(items, function(i) { %> <li  data-id="<%= i.id.videoId %>" class="collection-item"><div class="search-item" ><img width=45 height=25 style="vertical-align: middle; margin-right: 4px" src="<%= i.snippet.thumbnails.default.url %>" /> <%= i.snippet.title %></div></li><% }); %> '),
   }
+  var tt = _.template('<blockquote data-range="<%= range %>" class="pull-<%= alt %>"><p><%= obj.line %></p><small><%= obj.timestamp %>s <%= obj.chara %></small></blockquote>');
 
-window.timeline = window.t = [];
-t[1] = "Bush: Sir, they should really drag us into the street and shoot us."
-t[3] = "Ashcroft: Why don't you do something else with your life."
-t[2] = "Bush: Sir, I can only drink Karachi milkshakes."
-t[5] = "Bush: I have one friend, he hates me"
-t[11] = "Bush: This man here is my best friend"
-t[34] = "Bush: We massage eachothers arms."
-t[22] = "Bush: Sir, I will now inject him with deadly poison"
-t[33] = "Bush: My friend enjoys magicians"
-
-    
   window.onYouTubeIframeAPIReady = function() {
     var player =  new YT.Player(app.config.pid, {
       width: app.config.width,
@@ -31,8 +21,6 @@ t[33] = "Bush: My friend enjoys magicians"
     app.setPlayer(player);
 
   }
-  var last = 0;
-  var tt = _.template('<blockquote data-range="<%= range %>" class="pull-<%= alt %>"><p><%= obj.line %></p><small><%= obj.timestamp %>s <%= obj.chara %></small></blockquote>');
 
   var app = {
     config: { 
@@ -40,7 +28,7 @@ t[33] = "Bush: My friend enjoys magicians"
       width: 520,
       videoId: 'M7lc1UVf-VE',
       playerVars: {
-        'autoplay': true,
+        'autoplay': false,
         'controls': 1,
         'hd': 1,
         'modestbranding': 1,
@@ -58,34 +46,36 @@ t[33] = "Bush: My friend enjoys magicians"
     },
 
     init: function() {
+      var timeline = this.timeline = new Timeline();
       this.timer = new Timer()
       this.timer.on('update', this.onTimerUpdate.bind(this));
+      timeline.insert({ t:2 , l: "Bush: Sir, I will now inject him with deadly poison"})
+      timeline.insert({ t:15 , l: "Bush: This man here is my best friend"})
+      timeline.insert({ t:4 , l: "Bush: Sir, they should really drag us into the street and shoot us."})
+      timeline.insert({ t:6 , l: "Ashcroft: Why don't you do something else with your life."})
+      timeline.insert({ t:1 , l: "Bush: Sir, I can only drink Karachi milkshakes."})
+      timeline.insert({ t:8 , l: "Bush: I have one friend, he hates me"})
+      timeline.insert({ t:11 , l: "2Bush: My friend enjoys magicians"})
+      timeline.insert({ t:36 , l: "Bush: We massage eachothers arms."})
+
     },
 
     setPlayer: function(player) {
       this.player = player;
     },
 
-    onTimerUpdate: function(elapsed) {
-      if (Math.abs(this.player.getCurrentTime()-elapsed) > 5) {
+    onTimerUpdate: function(elapsed) {  
+      if (Math.abs(this.player.getCurrentTime()-elapsed) > 8) {
         this.timer.start(this.player.getCurrentTime(),this.currentDuration)
-                        // $("#transcript blockquote:lt(3)").remove();
-
+        $("#transcript blockquote").remove();
       }
+ 
+      var node = this.timeline.list(elapsed)[0];
 
-         var i = timeline[elapsed];
-         if (i) {
-           var chara = i.split(':')[0], line = i.split(':')[1];
-          $("#transcript").append(tt({ chara: chara, line: line, alt: 'left', range: elapsed }))
-              // if ($("#transcript blockquote").length > 4)
-                    // $("#transcript blockquote:lt(3)").remove();
-
-           }
-       
-      console.log(elapsed, Math.floor(this.player.getCurrentTime()));
-
-
-
+      if (node) {
+        console.log(node.data)
+      }
+      else console.log(elapsed)
     },
 
     onStateChange: function(e) {
@@ -106,16 +96,13 @@ t[33] = "Bush: My friend enjoys magicians"
       this.player.seekTo(start);
       this.currentDuration = end;
     }
-
-
-
-
   }
 
   // init
   $(function() {
     app.init();
   })
+
 
   
 }());
