@@ -25,23 +25,9 @@
       return this;
     },
 
-    /**
-     * [insert array of objects]
-     * @param  {[type]} n [description]
-     */
-    insert: function (n) {
-      if (!Array.isArray(n)) n = [n];
-      var nodes = n.concat(n),
-        nnode, i = 0;
-
-      for (i = 0; i < nodes.length; i++) {
-        nnode = this.createNode(nodes[i]);
-        this.insertOne(nnode);
-      }
-    },
-
-    insertOne: function (node) {
-      var after, nn = this.head,
+    insert: function (data) {
+      var node = this.createNode(data),
+        after, nn = this.head,
         ptr = this.head;
 
       // if timeline is empty
@@ -52,24 +38,14 @@
         return;
       }
 
-      // if cached, just update data of the node
-      if (node.data.t) {
-        var cached = this.cache[node.data.t];
-        if (cached) {
-          cached.data = node.data;
-          return;
-        }
-      }
-
       // otherwise append after biggest node
       while (nn) {
         if (node.data.t > nn.data.t) ptr = nn;
         if (nn) nn = nn.next;
       }
+
       this.append(node, ptr);
     },
-
-
 
     append: function (node, after) {
       var appendAfter = this.tail;
