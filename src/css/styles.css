@@ -1,6 +1,6 @@
 body {
   padding: 0; margin: 0 ;
-  background-color: #fff;
+  background-color: #eee;
 }
 
 #messages {
@@ -9,10 +9,46 @@ body {
   text-align: left;
 }
 
-#ytvideo {
-  width: 50%;
-  float: right;
+#transcript {
   text-align: right;
+  width: 300px;
+  background: #ccc;
+  position: absolute;
+  right:5px
 }
 
+#transcript a {
 
+  border-radius: 1px;
+  color: #000;
+  /*visibility: hidden;*/
+  display: block;
+  /*top: 40px;*/
+  background: #eee;
+  height: 60px;
+  border-bottom: solid 1px #aaa;
+  padding: 1px 5px 0 0;
+
+font-size: 16px
+}
+#transcript a.active     {
+  background: hsla(50, 100%, 62%, 1);
+  color:#000;
+
+  visibility: visible;
+  top: 0
+}
+
+#transcript a.hidden {
+  display: none
+}
+
+#transcript a input {
+  margin:0;
+  padding: 0;
+
+  background: #eee;
+  outline: none;
+  border: none;
+  width: 100%
+}
