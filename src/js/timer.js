@@ -1,4 +1,4 @@
-(function () {
+(function (window) {
 
   function Timer() {
 
@@ -58,4 +58,4 @@
 
   window.Timer = Timer;
 
-}());
+}(window));

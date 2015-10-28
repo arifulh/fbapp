@@ -1,4 +1,4 @@
-(function () {
+(function (window) {
 
   function Timeline() {
     this.head = null;
@@ -30,11 +30,11 @@
         after, nn = this.head,
         ptr = this.head;
 
-      this.length++;
       // if timeline is empty
       if (!this.length) {
         this.head = node;
         this.tail = this.head;
+        this.length++;
         return;
       }
 
@@ -108,4 +108,4 @@
 
   window.Timeline = Timeline;
 
-}());
+}(window));
