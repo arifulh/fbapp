@@ -18,10 +18,11 @@
      *
      */
     init: function () {
-      this.insert({
-        t: null,
-        nullNode: true
-      });
+      this.insertOne(
+        this.createNode({
+          t: null,
+          nullNode: true
+        }));
       return this;
     },
 
@@ -31,12 +32,13 @@
      */
     insert: function (n) {
       if (!Array.isArray(n)) n = [n];
-      var nodes = n.concat(n),
+      var nodes = [].concat(n),
         nnode, i = 0;
 
       for (i = 0; i < nodes.length; i++) {
         nnode = this.createNode(nodes[i]);
         this.insertOne(nnode);
+        this.cache[nnode.data.t] = nnode;
       }
     },
 
@@ -56,7 +58,9 @@
       if (node.data.t) {
         var cached = this.cache[node.data.t];
         if (cached) {
-          cached.data = node.data;
+          cached.data.l = node.data.l;
+          cached.data.t = node.data.t;
+          if (node.data.el) cached.data.el = node.data.el;
           return;
         }
       }
@@ -66,6 +70,7 @@
         if (node.data.t > nn.data.t) ptr = nn;
         if (nn) nn = nn.next;
       }
+
       this.append(node, ptr);
     },
 
@@ -117,10 +122,10 @@
         if (node && !node.data.nullNode) {
           if (node.data.t >= from && node.data.t <= to) {
             arr.push(node);
-            if (!this.cache[node.data.t])
-              this.cache[node.data.t] = node;
           }
         }
+
+        this.cache[node.data.t] = node;
         node = node.next;
       }
 

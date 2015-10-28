@@ -34,8 +34,11 @@
 
   };
 
+
+
   var app = {
     __init: false,
+    __dom: false,
 
     config: {
       pid: 'player1',
@@ -59,16 +62,27 @@
       }
     },
 
-    init: function () {
+    init: function (cb) {
       var timeline = this.timeline = new Timeline();
+      this.size = 0;
       this.timer = new Timer();
       this.timer.on('update', this.onTimerUpdate.bind(this));
-      this.__init = true;
+      this.timer.pause();
+      this.__initCallback = function () {
+        cb();
+        this.__dom = true;
+        this.__init = true;
+        this.timer.restart();
+      };
     },
 
     insert: function (data) {
       if (!data) return;
+
       this.timeline.insert(data);
+      this.size = this.size + data.length;
+
+
     },
 
     setPlayer: function (player) {
@@ -76,19 +90,20 @@
     },
 
     onTimerUpdate: function (elapsed) {
-      if (Math.abs(this.player.getCurrentTime() - elapsed) > 8) {
-        this.timer.start(this.player.getCurrentTime(), this.currentDuration);
-        $("#transcript blockquote").remove();
+
+
+      if (Math.abs(this.player.getCurrentTime() - elapsed) > 5) {
+        this.timer.start(this.player.getCurrentTime() - 1, this.currentDuration);
+
       }
-      var transcript = $("#transcript ul");
+
       var node = this.timeline.list(elapsed)[0];
-      var a = $('<a href=""></a>');
+
 
       if (node) {
-        a.html(node.data.l);
-        console.log(node.data.l);
+        node.data.el.textContent = node.data.l;
       }
-      console.log(node);
+
 
     },
 
@@ -98,24 +113,57 @@
       } else if (e.data === 1) {
         this.timer.start(this.player.getCurrentTime(), this.currentDuration);
       } else if (e.data === -1) {
+
+        if (!this.__dom) {
+          this.currentDuration = this.player.getDuration();
+          this.buildTranscriptDom();
+        }
+
         // this.timer.start(this.player.getCurrentTime(),this.currentDuration)
       }
     },
 
     start: function () {
-      if (!app.__init) return;
+
       var start = Math.floor(this.player.getCurrentTime() || 0),
         end = Math.floor(this.player.getDuration());
       this.player.seekTo(start);
       this.currentDuration = end;
+    },
+
+    buildTranscriptDom: function () {
+      var len = Math.floor(this.currentDuration),
+        ul = document.getElementById('transcript'),
+        frag = document.createDocumentFragment();
+
+      var nodes = _.range(0, this.currentDuration)
+        .map(function (i, ii) {
+
+          var li = document.createElement("li");
+          li.textContent = '';
+          li.id = 't' + i;
+          frag.appendChild(li);
+
+
+          return {
+            l: '',
+            t: i + 1,
+            el: li
+          };
+        });
+
+      ul.appendChild(frag);
+      this.timeline.insert(nodes);
+      this.__initCallback();
+
     }
   };
 
   // init
   $(function () {
-    var data = transcriptTestCallback();
-    app.init();
-    app.insert(data)
+    app.init(function () {
+      app.insert(transcriptTestCallback());
+    });
     window.app = app;
   });
 
