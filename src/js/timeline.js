@@ -1,5 +1,4 @@
-(function() {
-
+(function () {
 
   function Timeline() {
     this.head = null;
@@ -12,13 +11,18 @@
   }
 
   Timeline.prototype = {
-    init: function() {
-      this.insert({ t: null, nullNode: true })
+    init: function () {
+      this.insert({
+        t: null,
+        nullNode: true
+      })
       return this;
     },
-    insert: function(data) {
-      var node = this.createNode(data), after;
-      var ptr = this.head, nn = this.head;
+    insert: function (data) {
+      var node = this.createNode(data),
+        after;
+      var ptr = this.head,
+        nn = this.head;
 
       if (!this.length) {
         this.head = node;
@@ -27,15 +31,15 @@
         return;
       }
 
-      while (nn ) {
-        if (node.data.t > nn.data.t ) ptr = nn; 
+      while (nn) {
+        if (node.data.t > nn.data.t) ptr = nn;
         if (nn) nn = nn.next;
       }
 
       this.append(node, ptr);
     },
 
-    append: function(node, after) {
+    append: function (node, after) {
       var appendAfter = this.tail;
       if (after) appendAfter = after;
       node.prev = appendAfter.prev;
@@ -43,10 +47,10 @@
       appendAfter.next = node;
       apendAfter = node;
       if (!node.next) this.tail = node;
-      if(!node.data.nullNode) this.length++;
+      if (!node.data.nullNode) this.length++;
     },
 
-    prepend: function(node, before) {
+    prepend: function (node, before) {
       var prependBefore = this.head;
       if (before) prependBefore = before;
       node.next = prependBefore.next;
@@ -55,8 +59,8 @@
       if (!node.prev) this.head = node;
     },
 
-    createNode: function(data) {
-      function node(d){
+    createNode: function (data) {
+      function node(d) {
         this.next = null;
         this.prev = null;
         this.data = d;
@@ -64,21 +68,23 @@
       return new node(data);
     },
 
-    list: function(from, to) {
-      var len = this.length, 
-          node = this.head,
-          arr = [];
+    list: function (from, to) {
+      var len = this.length,
+        node = this.head,
+        arr = [];
 
       from = from || 0;
       to = to || from;
 
-      if (this.cache[from-2]) { node = this.cache[from-2]; } 
+      if (this.cache[from - 2]) {
+        node = this.cache[from - 2];
+      }
 
       while (node) {
         if (node && !node.data.nullNode) {
           if (node.data.t >= from && node.data.t <= to) {
             arr.push(node);
-            if (!this.cache[node.data.t]) 
+            if (!this.cache[node.data.t])
               this.cache[node.data.t] = node;
           }
         }
@@ -86,8 +92,6 @@
       }
       return arr;
     }
-
-
   };
 
   window.Timeline = Timeline;
