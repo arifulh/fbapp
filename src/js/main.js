@@ -1,15 +1,31 @@
 (function (window) {
 
-  console.log(window.Speaker)
+  var hash = window.location.hash,
+    videoId, comments;
+  if (hash) { // videoId = hash.replace('#ytid=', '');
 
+    hash = hash.split('&');
+
+    if (hash) {
+      hash.forEach(function (h) {
+
+        if (h.split('=')[0].replace('#', '') === 'ytid')
+          videoId = h.split('=')[1];
+        if (h.split('=')[0].replace('#', '') === 'c')
+          comments = h.split('=')[1];
+
+      });
+    }
+  }
+
+  // console.log(videoId, comments)
   var app = {
     config: null
   };
-
   app.config = {
     pid: 'player1',
     width: 520,
-    videoId: 'YQHsXMglC9A',
+    videoId: videoId || 'YQHsXMglC9A',
     playerVars: {
       'autoplay': true,
       'controls': 1,
@@ -40,9 +56,6 @@
       '<% _.forEach(items, function(i) { %> <li  data-id="<%= i.id.videoId %>" class="collection-item"><div class="search-item" ><img width=45 height=25 style="vertical-align: middle; margin-right: 4px" src="<%= i.snippet.thumbnails.default.url %>" /> <%= i.snippet.title %></div></li><% }); %> '
     ),
   };
-  var tt = _.template(
-    '<blockquote data-range="<%= range %>" class="pull-<%= alt %>"><p><%= obj.line %></p><small><%= obj.timestamp %>s <%= obj.chara %></small></blockquote>'
-  );
 
   var player;
   window.onYouTubeIframeAPIReady = function () {
@@ -75,14 +88,17 @@
 
 
   app.init = function (data) {
-
-    var dd = transcriptTestCallback();
-    dd.forEach(function (d) {
-      data[d.t] = {
-        t: d.t,
-        l: d.l
-      };
-    });
+    if (comments) {
+      comments = JSON.parse(decodeURIComponent(decodeURI(comments)));
+    }
+    var dd = comments;
+    dd.forEach(
+      function (d) {
+        data[d.t] = {
+          t: d.t,
+          l: d.l
+        };
+      });
 
     var transscripEl = $("#transcript");
 
@@ -120,11 +136,13 @@
       timer.on('update', function (elapsed) {
         if (Math.abs(player.getCurrentTime() - elapsed) > 5) {
           timer.start(player.getCurrentTime(), player.getDuration());
+          window.scrollTo(0, elapsed * 21);
         }
 
         if (items[elapsed].l) app.speak(items[elapsed]);
       });
       timer.start(player.getCurrentTime(), player.getDuration());
+
 
 
       return {
@@ -144,6 +162,13 @@
       }
 
       function render() {
+
+        window.location.hash = ('c=' + ((encodeURIComponent(JSON.stringify(
+          (_.filter(
+            items,
+            function (i) {
+              return i.l !== '';
+            })))))));
         return ["div", [
           Transcript, inRangeItems
         ]];
@@ -225,10 +250,14 @@
   };
 
   app.speak = function (line) {
-    // if (app.speaker) app.speaker = new Speaker();
-    // console.log(Speaker);
-    console.log('speaking', line);
+    if (!app.speaker) app.speaker = new Speaker();
+    app.speaker(line.l);
+    window.scrollTo(0, line.t * 21);
+  };
+
+  app.save = function () {
 
   };
+
 
 }(window));
