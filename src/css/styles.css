@@ -3,52 +3,47 @@ body {
   background-color: #eee;
 }
 
-#messages {
-  width: 5%;
-  float: left;
-  text-align: left;
-}
-
 #transcript {
-  text-align: right;
   width: 300px;
   background: #ccc;
-  position: absolute;
-  right:5px
+
+
+
 }
 
 #transcript a {
-
-  border-radius: 1px;
   color: #000;
-  /*visibility: hidden;*/
   display: block;
-  /*top: 40px;*/
+
   background: #eee;
   height: 60px;
   border-bottom: solid 1px #aaa;
-  padding: 1px 5px 0 0;
+  padding: 1px 0px 0 0;
+  font-size: 16px;
+  text-decoration: 1;
+  cursor: pointer;
+  text-align: left
 
-font-size: 16px
+
 }
 #transcript a.active     {
-  background: hsla(50, 100%, 62%, 1);
-  color:#000;
 
+  color:#000;
   visibility: visible;
   top: 0
 }
 
-#transcript a.hidden {
-  display: none
-}
+.input-text {
+  outline: 0;
+  border: 0;
+  background: transparent ;
+  padding:  0;
+  display: block;
+  width: 85%;
+  min-height: 40px;
+  position: absolute;
+  cursor: text;
 
-#transcript a input {
-  margin:0;
-  padding: 0;
 
-  background: #eee;
-  outline: none;
-  border: none;
-  width: 100%
+
 }
