@@ -1,6 +1,11 @@
+(function (window) {
+
+  console.log(window.Speaker)
+
   var app = {
     config: null
   };
+
   app.config = {
     pid: 'player1',
     width: 520,
@@ -220,6 +225,10 @@
   };
 
   app.speak = function (line) {
+    // if (app.speaker) app.speaker = new Speaker();
+    // console.log(Speaker);
     console.log('speaking', line);
 
   };
+
+}(window));
