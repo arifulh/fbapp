@@ -1,34 +1,32 @@
 body {
   padding: 0; margin: 0 ;
-  background-color: #eee;
+  background-color: #000;
+  color:#fff;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+	-ms-text-size-adjust: none;
+  min-width:840px;
+
 }
 
 #transcript {
   width: 300px;
-  background: #ccc;
-
-
-
 }
 
 #transcript a {
-  color: #000;
   display: block;
-
-  background: #eee;
-  height: 60px;
-  border-bottom: solid 1px #aaa;
+  height: 50px;
+  border-bottom: solid 1px #555;
   padding: 1px 0px 0 0;
   font-size: 16px;
   text-decoration: 1;
   cursor: pointer;
   text-align: left
-
-
 }
-#transcript a.active     {
 
-  color:#000;
+#transcript a.active     {
   visibility: visible;
   top: 0
 }
@@ -43,7 +41,4 @@ body {
   min-height: 40px;
   position: absolute;
   cursor: text;
-
-
-
 }

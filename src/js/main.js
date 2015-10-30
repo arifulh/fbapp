@@ -44,19 +44,6 @@
     }
   };
 
-  var templates = {
-
-    apiCommentsUrl: _.template(
-      'http://gdata.youtube.com/feeds/api/videos/<%= v %>/comments?alt=json-in-script&v=2&max-results=50&callback=comments&fields=entry(content)&callback=comments'
-    ),
-    apiQueryUrl: _.template(
-      'https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true<%= pageToken %>&alt=json&order=viewCount&part=snippet&type=video&maxResults=50&key=AIzaSyDPZAqiz9bNw6v3oJBPi_ECREDOtwWXGNo&q=<%= query %>&callback=test'
-    ),
-    searchResult: _.template(
-      '<% _.forEach(items, function(i) { %> <li  data-id="<%= i.id.videoId %>" class="collection-item"><div class="search-item" ><img width=45 height=25 style="vertical-align: middle; margin-right: 4px" src="<%= i.snippet.thumbnails.default.url %>" /> <%= i.snippet.title %></div></li><% }); %> '
-    ),
-  };
-
   var player;
   window.onYouTubeIframeAPIReady = function () {
     player = new YT.Player(app.config.pid, {
@@ -91,7 +78,7 @@
     if (comments) {
       comments = JSON.parse(decodeURIComponent(decodeURI(comments)));
     }
-    var dd = comments;
+    var dd = comments || [{}];
     dd.forEach(
       function (d) {
         data[d.t] = {
@@ -136,7 +123,6 @@
       timer.on('update', function (elapsed) {
         if (Math.abs(player.getCurrentTime() - elapsed) > 5) {
           timer.start(player.getCurrentTime(), player.getDuration());
-          window.scrollTo(0, elapsed * 21);
         }
 
         if (items[elapsed].l) app.speak(items[elapsed]);
@@ -163,12 +149,13 @@
 
       function render() {
 
-        window.location.hash = ('c=' + ((encodeURIComponent(JSON.stringify(
-          (_.filter(
-            items,
-            function (i) {
-              return i.l !== '';
-            })))))));
+        window.location.hash = ('ytid=' + app.config.videoId + '&' + 'c=' +
+          ((encodeURIComponent(JSON.stringify(
+            (_.filter(
+              items,
+              function (i) {
+                return i.l !== '';
+              })))))));
         return ["div", [
           Transcript, inRangeItems
         ]];
@@ -252,7 +239,7 @@
   app.speak = function (line) {
     if (!app.speaker) app.speaker = new Speaker();
     app.speaker(line.l);
-    window.scrollTo(0, line.t * 21);
+    window.scrollTo(0, elapsed * 21);
   };
 
   app.save = function () {
